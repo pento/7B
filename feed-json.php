@@ -63,19 +63,30 @@ while( have_posts() ) {
 
 $json = apply_filters( 'json_feed', $json );
 
-$options = 0;
-if ( ! get_query_var( 'array' ) )
-	$options |= JSON_FORCE_OBJECT;
-if ( get_query_var( 'pretty' ) )
-	$options |= JSON_PRETTY_PRINT;
+if ( version_compare( phpversion(), '5.3.0', '<' ) ) {
+	// json_encode() options added in PHP 5.3
+	if ( get_query_var( 'array' ) )
+		$json_str = json_encode( $json );
+	else
+		$json_str = json_encode( (object)$json );
+} else {
+	$options = 0;
+	if ( ! get_query_var( 'array' ) )
+		$options |= JSON_FORCE_OBJECT;
+	// JSON_PRETTY_PRINT added in PHP 5.4
+	if ( get_query_var( 'pretty' ) && version_compare( phpversion(), '5.4.0', '>=' ) )
+		$options |= JSON_PRETTY_PRINT;
+	
+	$options = apply_filters( 'json_feed_options', $options );
 
-$options = apply_filters( 'json_feed_options', $options );
+	$json_str = json_encode( $json, $options );
+}
 
 $callback = apply_filters( 'json_feed_callback', get_query_var( 'callback' ) );
 
 if ( ! empty( $callback ) )
-	echo $callback . '( ' . json_encode( $json, $options ) . ' );';
+	echo "$callback( $json_str );";
 else
-	echo json_encode( $json, $options );
+	echo $json_str;
 
 do_action( 'json_feed_post' );

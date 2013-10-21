@@ -29,5 +29,8 @@ There's a [ticket for bugs/feedback](http://core.trac.wordpress.org/ticket/25639
 
 == Changelog ==
 
+= 0.2 =
+* FIXED: json_encode() options not available in earlier PHP versions
+
 = 0.1 =
 * Initial release
