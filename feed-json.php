@@ -5,6 +5,26 @@ $json['items'] = array();
 
 header( 'Content-Type: ' . feed_content_type( 'json' ) . '; charset=' . get_option( 'blog_charset' ), true );
 
+$callback = apply_filters( 'json_feed_callback', get_query_var( 'callback' ) );
+
+if ( ! empty( $callback ) && ! apply_filters( 'json_jsonp_enabled', true ) ) {
+	status_header( 400 );
+	echo json_encode( array(
+						'code'    => 'json_callback_disabled',
+						'message' => 'JSONP support is disabled on this site.'
+					) );
+	exit;
+}
+
+if ( preg_match( '/\W/', $callback ) ) {
+	status_header( 400 );
+	echo json_encode( array(
+						'code'    => 'json_callback_invalid',
+						'message' => 'The JSONP callback function is invalid.'
+					) );
+	exit;
+}
+
 do_action( 'json_feed_pre' );
 
 while( have_posts() ) { 
@@ -81,8 +101,6 @@ if ( version_compare( phpversion(), '5.3.0', '<' ) ) {
 
 	$json_str = json_encode( $json, $options );
 }
-
-$callback = apply_filters( 'json_feed_callback', get_query_var( 'callback' ) );
 
 if ( ! empty( $callback ) )
 	echo "$callback( $json_str );";
