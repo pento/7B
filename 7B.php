@@ -157,7 +157,7 @@ class JSONFeed {
 	}
 
 	function doAS1Feed() {
-		load_template( dirname( __FILE__ ) . '/feed-json.php' );
+		load_template( dirname( __FILE__ ) . '/feed-as1.php' );
 	}
 }
 
