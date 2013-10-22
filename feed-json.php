@@ -47,7 +47,7 @@ if ( preg_match( '/\W/', $callback ) ) {
  */
 do_action( 'json_feed_pre' );
 
-while( have_posts() ) { 
+while( have_posts() ) {
 	the_post();
 
 	$post_type = get_post_type();
@@ -103,7 +103,7 @@ while( have_posts() ) {
 										)
 					)
 			);
-	
+
 	/*
 	 * The item to be added to the Activity Streams 1 feed
 	 *

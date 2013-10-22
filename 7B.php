@@ -28,7 +28,7 @@ class JSONFeed {
 
 	static function init() {
 		static $instance;
-		
+
 		if ( empty( $instance ) )
 			$instance = new JSONFeed();
 
