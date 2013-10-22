@@ -15,6 +15,8 @@ if ( ! function_exists( 'add_action' ) ) {
 }
 
 class JSONFeed {
+	private $feeds = array( 'as1' );
+
 	static function init() {
 		static $instance;
 		
@@ -32,6 +34,12 @@ class JSONFeed {
 		add_filter( 'feed_content_type', array( $this, 'contentType' ), 10, 2 );
 
 		add_feed( 'json', array( $this, 'doJSONFeed' ) );
+
+		$this->feeds = apply_Filters( 'json_feeds', $this->feeds );
+		foreach ( $this->feeds as $feed ) {
+			add_action( "do_feed_json/$feed",  array( $this, 'doFeed' ) );
+			add_feed( "json/$feed", array( $this, 'doFeed' ) );
+		}
 	}
 
 	static function flushRewriteRules() {
@@ -48,17 +56,61 @@ class JSONFeed {
 	}
 
 	function contentType( $type, $feed ) {
-		if ( 'json' === $feed )
+		$feeds = $this->feeds;
+		$feeds[] = 'json';
+
+		if ( in_array( $feed, $feeds ) )
 			return 'application/json';
 
 		return $type;
 	}
 
 	function headLink() {
-		echo '<link rel="alternate activities" type="application/activitystream+json" href="' . get_feed_link( 'json' ) . '" />';
+		$default = apply_filters( 'json_feed_default', 'as1' );
+
+		switch( $default ) {
+			case 'as1':
+			default:
+				$rel = 'alternate activities';
+				$type = 'application/activitystream+json';
+		}
+
+		$rel = apply_filters( 'json_feed_link_rel', $rel, $default );
+		$type = apply_filters( 'json_feed_link_type', $type, $default );
+		$url = get_feed_link( 'json' );
+
+		echo "<link rel='$rel' type='$type' href='$url' />\n";
 	}
 
 	function doJSONFeed() {
+		$default = apply_filters( 'json_feed_default', 'as1' );
+
+		switch( $default ) {
+			case 'as1':
+				$this->doAS1Feed();
+				break;
+			default:
+				do_action( 'json_feed_load_template', $default );
+				break;
+		}
+	}
+
+	function doFeed() {
+		$filter = current_filter();
+		$pieces = explode( '/', $filter );
+		$feed = $pieces[1];
+
+		switch( $feed ) {
+			case 'as1':
+				$this->doAS1Feed();
+				break;
+			default:
+				do_action( 'json_feed_load_template', $default );
+				break;
+		}
+	}
+
+	function doAS1Feed() {
 		load_template( dirname( __FILE__ ) . '/feed-json.php' );
 	}
 }

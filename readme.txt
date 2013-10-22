@@ -29,6 +29,9 @@ There's a [ticket for bugs/feedback](http://core.trac.wordpress.org/ticket/25639
 
 == Changelog ==
 
+= 0.3 =
+* ADDED: Pluggable JSON feeds support
+
 = 0.2 =
 * ADDED: Sanity checks for JSONP callback. Props @rmccue
 * FIXED: json_encode() options not available in earlier PHP versions. Props @rmccue
