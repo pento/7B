@@ -1,10 +1,25 @@
 <?php
+/**
+ * Activity Streams 1 Feed Template for displaying AS1 Posts feed.
+ *
+ * @package WordPress
+ * @subpackage Feed
+ * @since 3.8.0
+ */
+
 $json = array();
 
 $json['items'] = array();
 
 header( 'Content-Type: ' . feed_content_type( 'json' ) . '; charset=' . get_option( 'blog_charset' ), true );
 
+/*
+ * The JSONP callback function to add to the JSON feed
+ *
+ * @since 3.8.0
+ *
+ * @param string $callback The JSONP callback function name
+ */
 $callback = apply_filters( 'json_feed_callback', get_query_var( 'callback' ) );
 
 if ( ! empty( $callback ) && ! apply_filters( 'json_jsonp_enabled', true ) ) {
@@ -25,6 +40,11 @@ if ( preg_match( '/\W/', $callback ) ) {
 	exit;
 }
 
+/*
+ * Action triggerd prior to the JSON feed being created and sent to the client
+ *
+ * @since 3.8.0
+ */
 do_action( 'json_feed_pre' );
 
 while( have_posts() ) { 
@@ -43,7 +63,15 @@ while( have_posts() ) {
     		break;
 	}
 
-	$object_type = apply_filters( 'json_object_type', $object_type, $post_type );
+	/*
+	 * The object type of the current post in the Activity Streams 1 feed
+	 *
+	 * @since 3.8.0
+	 *
+	 * @param string $object_type The current object type
+	 * @param string $post_type The current post type
+	 */
+	$object_type = apply_filters( 'as1_object_type', $object_type, $post_type );
 
 	$item = array(
 			'published' => get_post_modified_time( 'Y-m-d\TH:i:s\Z', true ),
@@ -76,12 +104,26 @@ while( have_posts() ) {
 					)
 			);
 	
-	$item = apply_filters( 'json_feed_item', $item );
+	/*
+	 * The item to be added to the Activity Streams 1 feed
+	 *
+	 * @since 3.8.0
+	 *
+	 * @param array $item The Activity Streams 1 item
+	 */
+	$item = apply_filters( 'as1_feed_item', $item );
 
 	$json['items'][] = $item;
 }
 
-$json = apply_filters( 'json_feed', $json );
+/*
+ * The array of data to be sent to the user as JSON
+ *
+ * @since 3.8.0
+ *
+ * @param array $json The JSON data array
+ */
+$json = apply_filters( 'as1_feed', $json );
 
 if ( version_compare( phpversion(), '5.3.0', '<' ) ) {
 	// json_encode() options added in PHP 5.3
@@ -96,7 +138,14 @@ if ( version_compare( phpversion(), '5.3.0', '<' ) ) {
 	// JSON_PRETTY_PRINT added in PHP 5.4
 	if ( get_query_var( 'pretty' ) && version_compare( phpversion(), '5.4.0', '>=' ) )
 		$options |= JSON_PRETTY_PRINT;
-	
+
+	/*
+	 * Options to be passed to json_encode()
+	 *
+	 * @since 3.8.0
+	 *
+	 * @param int $options The current options flags
+	 */
 	$options = apply_filters( 'json_feed_options', $options );
 
 	$json_str = json_encode( $json, $options );
@@ -107,4 +156,9 @@ if ( ! empty( $callback ) )
 else
 	echo $json_str;
 
+/*
+ * Action triggerd after the JSON feed has been created and sent to the client
+ *
+ * @since 3.8.0
+ */
 do_action( 'json_feed_post' );

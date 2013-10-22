@@ -14,6 +14,15 @@ if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
 
+/*
+ * JSON Feed management class.
+ *
+ * This class controls the /feeds/json/ endpoint, and helps with adding new sub-endpoints, or changing the default handler for /feeds/json/
+
+ * @package WordPress
+ * @subpackage Feed
+ * @since 3.8.0
+ */
 class JSONFeed {
 	private $feeds = array( 'as1' );
 
@@ -35,6 +44,13 @@ class JSONFeed {
 
 		add_feed( 'json', array( $this, 'doJSONFeed' ) );
 
+		/*
+		 * The array of JSON feeds available
+		 *
+		 * @since 3.8.0
+		 *
+		 * @param array $feeds The JSON feeds array
+		 */
 		$this->feeds = apply_Filters( 'json_feeds', $this->feeds );
 		foreach ( $this->feeds as $feed ) {
 			add_action( "do_feed_json/$feed",  array( $this, 'doFeed' ) );
@@ -66,6 +82,13 @@ class JSONFeed {
 	}
 
 	function headLink() {
+		/*
+		 * The default feed type to use for the /feeds/json/ endpoint
+		 *
+		 * @since 3.8.0
+		 *
+		 * @param string $feed The default feed type
+		 */
 		$default = apply_filters( 'json_feed_default', 'as1' );
 
 		switch( $default ) {
@@ -75,7 +98,23 @@ class JSONFeed {
 				$type = 'application/activitystream+json';
 		}
 
+		/*
+		 * The 'rel' data to be added to the JSON link in all page headers
+		 *
+		 * @since 3.8.0
+		 *
+		 * @param string $rel The default 'rel'
+		 * @param string $default The feed type
+		 */
 		$rel = apply_filters( 'json_feed_link_rel', $rel, $default );
+		/*
+		 * The 'type' data to be added to the JSON link in all page headers
+		 *
+		 * @since 3.8.0
+		 *
+		 * @param string $type The default 'type'
+		 * @param string $default The feed type
+		 */
 		$type = apply_filters( 'json_feed_link_type', $type, $default );
 		$url = get_feed_link( 'json' );
 
@@ -83,14 +122,21 @@ class JSONFeed {
 	}
 
 	function doJSONFeed() {
-		$default = apply_filters( 'json_feed_default', 'as1' );
+		$feed = apply_filters( 'json_feed_default', 'as1' );
 
-		switch( $default ) {
+		switch( $feed ) {
 			case 'as1':
 				$this->doAS1Feed();
 				break;
 			default:
-				do_action( 'json_feed_load_template', $default );
+				/*
+				 * Load the template for a given feed type
+				 *
+				 * @since 3.8.0
+				 *
+				 * @param string $feed The feed type being requested
+				 */
+				do_action( 'json_feed_load_template', $feed );
 				break;
 		}
 	}
