@@ -2,7 +2,7 @@
 Contributors: pento
 Requires at least: 3.7
 Tested up to: 3.8
-Stable tag: 0.3
+Stable tag: 0.4
 License: GPL2+
 
 An experiment in the use of curly brackets.
