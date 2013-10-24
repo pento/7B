@@ -29,6 +29,11 @@ There's a [ticket for bugs/feedback](http://core.trac.wordpress.org/ticket/25639
 
 == Changelog ==
 
+= 0.4 =
+REMOVED: 'array' URL option, as forcing an array isn't supported in JSON
+FIXED: 'items' array in AS1 was being encoded incorrectly
+
+
 = 0.3 =
 * ADDED: Pluggable JSON feeds support
 * ADDED: Some extra AS1 fields

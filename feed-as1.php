@@ -7,9 +7,9 @@
  * @since 3.8.0
  */
 
-$json = array();
+$json = new stdClass();
 
-$json['items'] = array();
+$json->items = array();
 
 header( 'Content-Type: ' . feed_content_type( 'json' ) . '; charset=' . get_option( 'blog_charset' ), true );
 
@@ -75,20 +75,20 @@ while( have_posts() ) {
 
 	$item = array(
 			'published' => get_post_modified_time( 'Y-m-d\TH:i:s\Z', true ),
-			'generator' => array(
+			'generator' => (object)array(
 							'url' => 'http://wordpress.org/?v=' . get_bloginfo_rss( 'version' )
 						),
-			'provider' => array(
+			'provider' => (object)array(
 							'url' => get_feed_link( 'url' )
 						),
 			'verb' => 'post',
-			'target' => array(
+			'target' => (object)array(
 						'id'          => get_bloginfo( 'url' ),
 						'url'         => get_bloginfo( 'url' ),
 						'objectType'  => 'blog',
 						'displayName' => get_bloginfo( 'name' )
 					),
-			'object' => array(
+			'object' => (object)array(
 						'id'          => get_the_guid(),
 						'displayName' => get_the_title(),
 						'objectType'  => $object_type,
@@ -96,12 +96,12 @@ while( have_posts() ) {
 						'url'         => get_permalink(),
 						'content'     => get_the_content()
 					),
-			'actor' => array(
+			'actor' => (object)array(
 						'id'          => get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'nicename' ) ),
 						'displayName' => get_the_author(),
 						'objectType'  => 'person',
 						'url'         => get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'nicename' ) ),
-						'image'       => array(
+						'image'       => (object)array(
 											'width'  => 96,
 											'height' => 96,
 											// TODO: get_avatar_url()
@@ -119,7 +119,7 @@ while( have_posts() ) {
 	 */
 	$item = apply_filters( 'as1_feed_item', $item );
 
-	$json['items'][] = $item;
+	$json->items[] = $item;
 }
 
 /*
@@ -133,14 +133,9 @@ $json = apply_filters( 'as1_feed', $json );
 
 if ( version_compare( phpversion(), '5.3.0', '<' ) ) {
 	// json_encode() options added in PHP 5.3
-	if ( get_query_var( 'array' ) )
-		$json_str = json_encode( $json );
-	else
-		$json_str = json_encode( (object)$json );
+	$json_str = json_encode( $json );
 } else {
 	$options = 0;
-	if ( ! get_query_var( 'array' ) )
-		$options |= JSON_FORCE_OBJECT;
 	// JSON_PRETTY_PRINT added in PHP 5.4
 	if ( get_query_var( 'pretty' ) && version_compare( phpversion(), '5.4.0', '>=' ) )
 		$options |= JSON_PRETTY_PRINT;

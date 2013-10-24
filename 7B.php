@@ -64,7 +64,6 @@ class JSONFeed {
 	}
 
 	function queryVars( $vars ) {
-		$vars[] = 'array';
 		$vars[] = 'callback';
 		$vars[] = 'pretty';
 
