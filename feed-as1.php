@@ -75,10 +75,16 @@ while( have_posts() ) {
 
 	$item = array(
 			'published' => get_post_modified_time( 'Y-m-d\TH:i:s\Z', true ),
+			'generator' => array(
+							'url' => 'http://wordpress.org/?v=' . get_bloginfo_rss( 'version' )
+						),
+			'provider' => array(
+							'url' => get_feed_link( 'url' )
+						),
 			'verb' => 'post',
 			'target' => array(
-						'id'          => get_feed_link( 'json' ),
-						'url'         => get_feed_link( 'json' ),
+						'id'          => get_bloginfo( 'url' ),
+						'url'         => get_bloginfo( 'url' ),
 						'objectType'  => 'blog',
 						'displayName' => get_bloginfo( 'name' )
 					),

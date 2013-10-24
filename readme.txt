@@ -31,6 +31,8 @@ There's a [ticket for bugs/feedback](http://core.trac.wordpress.org/ticket/25639
 
 = 0.3 =
 * ADDED: Pluggable JSON feeds support
+* ADDED: Some extra AS1 fields
+* CHANGED: Some of the AS1 fields were being used incorrectly
 
 = 0.2 =
 * ADDED: Sanity checks for JSONP callback. Props @rmccue
