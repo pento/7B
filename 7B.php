@@ -4,7 +4,7 @@
  * Plugin URI: http://core.trac.wordpress.org/ticket/25639
  * Description: Add a JSON feed to your WordPress site
  * Author: pento
- * Version: 0.4
+ * Version: 0.4.1
  * License: GPL2+
  */
 
