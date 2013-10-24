@@ -51,7 +51,7 @@ class JSONFeed {
 		 *
 		 * @param array $feeds The JSON feeds array
 		 */
-		$this->feeds = apply_Filters( 'json_feeds', $this->feeds );
+		$this->feeds = apply_filters( 'json_feeds', $this->feeds );
 		foreach ( $this->feeds as $feed ) {
 			add_action( "do_feed_json/$feed",  array( $this, 'doFeed' ) );
 			add_feed( "json/$feed", array( $this, 'doFeed' ) );

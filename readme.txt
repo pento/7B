@@ -29,6 +29,9 @@ There's a [ticket for bugs/feedback](http://core.trac.wordpress.org/ticket/25639
 
 == Changelog ==
 
+= 0.4.1 =
+* FIXED: PHP typo
+
 = 0.4 =
 REMOVED: 'array' URL option, as forcing an array isn't supported in JSON
 FIXED: 'items' array in AS1 was being encoded incorrectly
