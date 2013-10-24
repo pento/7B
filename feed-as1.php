@@ -115,7 +115,7 @@ while( have_posts() ) {
 	 *
 	 * @since 3.8.0
 	 *
-	 * @param array $item The Activity Streams 1 item
+	 * @param object $item The Activity Streams 1 item
 	 */
 	$item = apply_filters( 'as1_feed_item', $item );
 
@@ -127,7 +127,7 @@ while( have_posts() ) {
  *
  * @since 3.8.0
  *
- * @param array $json The JSON data array
+ * @param object $json The JSON data object
  */
 $json = apply_filters( 'as1_feed', $json );
 
