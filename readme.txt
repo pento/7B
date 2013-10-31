@@ -29,6 +29,9 @@ There's a [ticket for bugs/feedback](http://core.trac.wordpress.org/ticket/25639
 
 == Changelog ==
 
+= 0.5.1 =
+* FIXED: rss.js item array not being generated correctly
+
 = 0.5 =
 * ADDED: rss.js support
 

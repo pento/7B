@@ -80,7 +80,7 @@ while( have_posts() ) {
 	 */
 	$item = apply_filters( 'rssjs_feed_item', $item );
 
-	$json->items[] = $item;
+	$json->rss->channel->item[] = $item;
 }
 
 /*
