@@ -2,7 +2,7 @@
 Contributors: pento
 Requires at least: 3.7
 Tested up to: 3.8
-Stable tag: 0.4.1
+Stable tag: 0.5
 License: GPL2+
 
 An experiment in the use of curly brackets.
@@ -29,12 +29,15 @@ There's a [ticket for bugs/feedback](http://core.trac.wordpress.org/ticket/25639
 
 == Changelog ==
 
+= 0.5 =
+* ADDED: rss.js support
+
 = 0.4.1 =
 * FIXED: PHP typo
 
 = 0.4 =
-REMOVED: 'array' URL option, as forcing an array isn't supported in JSON
-FIXED: 'items' array in AS1 was being encoded incorrectly
+* REMOVED: 'array' URL option, as forcing an array isn't supported in JSON
+* FIXED: 'items' array in AS1 was being encoded incorrectly
 
 
 = 0.3 =
