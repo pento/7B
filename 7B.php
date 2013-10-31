@@ -24,7 +24,7 @@ if ( ! function_exists( 'add_action' ) ) {
  * @since 3.8.0
  */
 class JSONFeed {
-	private $feeds = array( 'as1' );
+	private $feeds = array( 'as1', 'rssjs' );
 
 	static function init() {
 		static $instance;
@@ -91,6 +91,10 @@ class JSONFeed {
 		$default = apply_filters( 'json_feed_default', 'as1' );
 
 		switch( $default ) {
+			case 'rssjs':
+				$rel = 'alternate';
+				$type = 'application/rss+json';
+				break;
 			case 'as1':
 			default:
 				$rel = 'alternate activities';
@@ -124,6 +128,9 @@ class JSONFeed {
 		$feed = apply_filters( 'json_feed_default', 'as1' );
 
 		switch( $feed ) {
+			case 'rssjs':
+				$this->doRssJsFeed();
+				break;
 			case 'as1':
 				$this->doAS1Feed();
 				break;
@@ -146,6 +153,9 @@ class JSONFeed {
 		$feed = $pieces[1];
 
 		switch( $feed ) {
+			case 'rssjs':
+				$this->doRssJsFeed();
+				break;
 			case 'as1':
 				$this->doAS1Feed();
 				break;
@@ -153,6 +163,10 @@ class JSONFeed {
 				do_action( 'json_feed_load_template', $default );
 				break;
 		}
+	}
+
+	function doRssJsFeed() {
+		load_template( dirname( __FILE__ ) . '/feed-rssjs.php' );
 	}
 
 	function doAS1Feed() {
