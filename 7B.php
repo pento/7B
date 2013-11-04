@@ -97,8 +97,8 @@ class JSONFeed {
 				break;
 			case 'as1':
 			default:
-				$rel = 'alternate activities';
-				$type = 'application/activitystream+json';
+				$rel = 'alternate';
+				$type = 'application/stream+json';
 		}
 
 		/*

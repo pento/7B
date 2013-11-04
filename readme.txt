@@ -29,6 +29,9 @@ There's a [ticket for bugs/feedback](http://core.trac.wordpress.org/ticket/25639
 
 == Changelog ==
 
+= 0.5.2 =
+* FIXED: Correct the AS1 autodiscovery tag, per the AS2 spec
+
 = 0.5.1 =
 * FIXED: rss.js item array not being generated correctly
 
