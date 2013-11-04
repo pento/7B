@@ -71,12 +71,15 @@ class JSONFeed {
 	}
 
 	function contentType( $type, $feed ) {
-		$feeds = $this->feeds;
-		$feeds[] = 'json';
+		if ( 'json' === $feed )
+			$feed = apply_filters( 'json_feed_default', 'as1' );
 
-		if ( in_array( $feed, $feeds ) )
-			return 'application/json';
-
+		switch( $feed ) {
+			case 'rssjs':
+				return 'application/rss+json';
+			case 'as1':
+				return 'application/stream+json';
+		}
 		return $type;
 	}
 
