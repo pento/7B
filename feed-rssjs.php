@@ -24,7 +24,7 @@ $json->rss->channel->ttl           = 15;
 
 $json->rss->channel->item = array();
 
-header( 'Content-Type: ' . feed_content_type( 'json' ) . '; charset=' . get_option( 'blog_charset' ), true );
+header( 'Content-Type: ' . feed_content_type( 'rssjs' ) . '; charset=' . get_option( 'blog_charset' ), true );
 
 /*
  * The JSONP callback function to add to the JSON feed
